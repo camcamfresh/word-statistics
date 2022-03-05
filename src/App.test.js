@@ -14,3 +14,8 @@ test('renders text area', () => {
   const textareaElement = screen.getByPlaceholderText('Enter text to analyze');
   expect(textareaElement).toBeInTheDocument();
 });
+
+test('renders word freqency area', () => {
+  const wordFreqencyElement = screen.getByText('Word Frequency');
+	expect(wordFreqencyElement).toBeInTheDocument();
+});
