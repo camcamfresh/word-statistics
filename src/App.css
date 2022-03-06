@@ -1,5 +1,9 @@
 h1 {
-  display: inline;
-  margin: 3px;
-  padding: 6px;
+	display: inline;
+	margin: 3px;
+	padding: 6px;
+}
+
+textarea {
+	resize: none;
 }
