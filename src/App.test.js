@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import App from './App';
+import App, { listWords } from './App';
 
 beforeEach(() => {
 	render(<App />);
@@ -23,7 +23,7 @@ describe('rendering', () => {
 	});
 });
 
-describe('input', () => {
+describe('keyboard input', () => {
 	let textarea;
 
 	beforeEach(
@@ -43,7 +43,7 @@ describe('input', () => {
 		expect(textarea.value).toEqual('Hey Hey Hey\tGoodbye');
 	});
 
-  it('retains cursor position after tab', () => {
+	it('retains cursor position after tab', () => {
 		userEvent.type(textarea, 'DaveyJones');
 		textarea.setSelectionRange(5, 5);
 		userEvent.tab(textarea);
@@ -51,7 +51,7 @@ describe('input', () => {
 		expect(textarea.value).toEqual('Davey\tJones');
 	});
 
-  it('replaces selected text on tab', () => {
+	it('replaces selected text on tab', () => {
 		userEvent.type(textarea, 'Hello World');
 		textarea.setSelectionRange(5, 6);
 		userEvent.tab(textarea);
@@ -65,5 +65,40 @@ describe('input', () => {
 		userEvent.type(textarea, 'tab.');
 
 		expect(textarea.value).toEqual('I pressed shift tab.');
+	});
+});
+
+describe('listWords', () => {
+	it('returns an empty with no input', () => {
+		expect(listWords('')).toEqual([]);
+	});
+
+	it('returns an empty with whitespaces', () => {
+		expect(listWords('  \t\t \t \t  \t\t')).toEqual([]);
+	});
+
+	it('returns input as words', () => {
+		const wordList = listWords('hot bannana');
+		expect(wordList).toEqual(['hot', 'bannana']);
+	});
+
+	it('does not return empty strings', () => {
+		const wordList = listWords('cold \t ice   cream');
+		expect(wordList).toEqual(['cold', 'ice', 'cream']);
+	});
+
+	it('removes most punctionation', () => {
+		const wordList = listWords('hot, fudge!?!? count me in!!!!.');
+		expect(wordList).toEqual(['hot', 'fudge', 'count', 'me', 'in']);
+	});
+
+	it('converts characters to lowercase', () => {
+		const wordList = listWords('CAN YOU HEAR ME');
+		expect(wordList).toEqual(['can', 'you', 'hear', 'me']);
+	});
+
+	it('retains apostrhpe punctiation mark', () => {
+		const wordList = listWords("would've could've should've");
+		expect(wordList).toEqual(["would've", "could've", "should've"]);
 	});
 });

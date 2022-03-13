@@ -1,5 +1,6 @@
 import './App.css';
 import { useState } from 'react';
+import Frequency from './Frequency';
 
 function App() {
 	const [textInput, setTextInput] = useState('');
@@ -15,9 +16,7 @@ function App() {
 					placeholder='Enter text to analyze'
 					value={textInput}
 				></textarea>
-				<div className='mx-4'>
-					<label>Word Frequency</label>
-				</div>
+				<Frequency wordList={listWords(textInput)} />
 			</div>
 		</div>
 	);
@@ -37,6 +36,14 @@ function handleTabEvent(event, textInput, setTextInput) {
 		event.target.selectionStart = start + 1;
 		event.target.selectionEnd = start + 1;
 	}
+}
+
+export function listWords(textInput) {
+	return textInput
+		.split(/\n|\t| /)
+		.filter((word) => word !== '')
+		.map((word) => word.trim().toLowerCase().replace(/[,.!?;:~"`()[\]{}]/g, ''))
+		.filter((word) => !word.match(/[\n|\t| |]/));
 }
 
 export default App;
