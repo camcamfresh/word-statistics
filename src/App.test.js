@@ -2,40 +2,45 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App, { listWords } from './App';
 
-beforeEach(() => {
-	render(<App />);
-});
-
 describe('rendering', () => {
 	it('displays title', () => {
+		render(<App />);
+
 		const element = screen.queryByText('Word Statistics');
 		expect(element).toBeInTheDocument();
 	});
 
 	it('displays text area', () => {
-		const element = screen.queryByPlaceholderText('Enter text to analyze');
+		render(<App />);
+
+		const element = screen.queryByTestId('text-input');
 		expect(element).toBeInTheDocument();
 	});
 
 	it('displays frequency label', () => {
+		render(<App />);
+
 		const element = screen.queryByText('Word Frequency');
 		expect(element).toBeInTheDocument();
 	});
 });
 
 describe('keyboard input', () => {
-	let textarea;
-
-	beforeEach(
-		() => (textarea = screen.queryByPlaceholderText('Enter text to analyze'))
-	);
+	function bootstrapApp() {
+		render(<App />);
+		return screen.queryByTestId('text-input');
+	}
 
 	it('updates textarea', () => {
+		const textarea = bootstrapApp();
+
 		userEvent.type(textarea, 'Hello World');
 		expect(textarea.value).toEqual('Hello World');
 	});
 
 	it('inserts tabs in textarea', () => {
+		const textarea = bootstrapApp();
+
 		userEvent.type(textarea, 'Hey Hey Hey');
 		userEvent.tab(textarea);
 		userEvent.type(textarea, 'Goodbye');
@@ -44,6 +49,8 @@ describe('keyboard input', () => {
 	});
 
 	it('retains cursor position after tab', () => {
+		const textarea = bootstrapApp();
+
 		userEvent.type(textarea, 'DaveyJones');
 		textarea.setSelectionRange(5, 5);
 		userEvent.tab(textarea);
@@ -52,6 +59,8 @@ describe('keyboard input', () => {
 	});
 
 	it('replaces selected text on tab', () => {
+		const textarea = bootstrapApp();
+
 		userEvent.type(textarea, 'Hello World');
 		textarea.setSelectionRange(5, 6);
 		userEvent.tab(textarea);
@@ -60,6 +69,8 @@ describe('keyboard input', () => {
 	});
 
 	it('does not respond to shift-tab', () => {
+		const textarea = bootstrapApp();
+
 		userEvent.type(textarea, 'I pressed shift ');
 		userEvent.keyboard('{Shift}{Tab}');
 		userEvent.type(textarea, 'tab.');

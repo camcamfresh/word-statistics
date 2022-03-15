@@ -11,6 +11,7 @@ function App() {
 			<div className='d-flex flex-row flex-fill overflow-auto'>
 				<textarea
 					className='flex-grow-1 mx-2 mb-2'
+					data-testid='text-input'
 					onInput={(event) => setTextInput(event.target.value)}
 					onKeyDown={(event) => handleTabEvent(event, textInput, setTextInput)}
 					placeholder='Enter text to analyze'
@@ -45,5 +46,7 @@ export function listWords(textInput) {
 		.map((word) => word.trim().toLowerCase().replace(/[,.!?;:~"`()[\]{}]/g, ''))
 		.filter((word) => !word.match(/[\n|\t| |]/));
 }
+
+// .replace(/[,.!?;:"#$()*+<=>@[\]/\\^_`{}|~]/, '')
 
 export default App;

@@ -29,6 +29,9 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
+### `npm run lint`
+Runs eslint on all js and jsx files within src directory.
+
 ## Resources
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
