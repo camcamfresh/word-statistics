@@ -16,12 +16,12 @@ function Frequency(props) {
 	));
 
 	return (
-		<div className='d-flex flex-column'>
-			<label>Word Frequency</label>
-			<div className='d-flex flex-column overflow-auto mb-2 pr-4 pb-4 h-75'>
+		<>
+			<label className="align-self-center">Word Frequency</label>
+			<div className='d-flex flex-column overflow-auto mb-2 p-4 h-75 border-bottom'>
 				{wordFrequencies}
 			</div>
-		</div>
+		</>
 	);
 }
 
