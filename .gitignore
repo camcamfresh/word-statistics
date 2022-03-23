@@ -10,6 +10,12 @@
 
 # production
 /build
+# bundle not ignored for demo purposes
+!/build
+/build/*
+!/build/dist
+/build/dist/*
+!/build/dist/index.html
 
 # misc
 .DS_Store
