@@ -4,9 +4,9 @@ import Frequency from './Frequency';
 import Replace from './Replace';
 
 function App() {
-	const [textInput, setTextInput] = useState('');
+	const [text, setText] = useState('');
 
-	const listOfWords = listWords(textInput);
+	const listOfWords = listWords(text);
 
 	return (
 		<div className='d-flex flex-column h-100'>
@@ -15,14 +15,14 @@ function App() {
 				<textarea
 					className='flex-grow-1 ml-2 mb-2'
 					data-testid='text-input'
-					onInput={(event) => setTextInput(event.target.value)}
-					onKeyDown={(event) => handleTabEvent(event, textInput, setTextInput)}
+					onInput={(event) => setText(event.target.value)}
+					onKeyDown={(event) => handleTabEvent(event, text, setText)}
 					placeholder='Enter text to analyze'
-					value={textInput}
+					value={text}
 				></textarea>
 				<div className='d-flex flex-column'>
 					<Frequency wordList={listOfWords} />
-					<Replace getText={textInput} setText={setTextInput} />
+					<Replace text={text} setText={setText} />
 				</div>
 			</div>
 		</div>
