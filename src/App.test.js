@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import App, { listWords } from './App';
+import App, { listWords, setSelectedText } from './App';
 
 describe('rendering', () => {
 	it('displays title', () => {
@@ -76,6 +76,36 @@ describe('keyboard input', () => {
 		userEvent.type(textarea, 'tab.');
 
 		expect(textarea.value).toEqual('I pressed shift tab.');
+	});
+});
+
+describe('select text', () => {
+	it('set text selection on callback', () => {
+		let recievedStart;
+		let recievedEnd;
+		let focusCalled = false;
+
+		const textArea = {
+			current: {
+				focus: () => {
+					focusCalled = true;
+				},
+				setSelectionRange: (start, end) => {
+					recievedStart = start;
+					recievedEnd = end;
+				},
+				scrollTop: 0,
+				scrollHeight: 100,
+				value: 'This is text in the textarea',
+			},
+		};
+
+		setSelectedText(textArea, 5, 10);
+
+		expect(textArea.current.scrollTop).toEqual(100);
+		expect(recievedStart).toEqual(5);
+		expect(recievedEnd).toEqual(10);
+		expect(focusCalled).toBeTruthy();
 	});
 });
 

@@ -1,10 +1,23 @@
 import './App.css';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Frequency from './Frequency';
 import Replace from './Replace';
 
 function App() {
+	const textArea = useRef(null);
 	const [text, setText] = useState('');
+	const [selection, setSelection] = useState({
+		start: 0,
+		end: 0,
+		presented: false,
+	});
+
+	useEffect(() => {
+		if (!selection.presented) {
+			setSelectedText(textArea, selection.start, selection.end);
+			setSelection({ ...selection, presented: true });
+		}
+	}, [selection]);
 
 	const listOfWords = listWords(text);
 
@@ -17,12 +30,31 @@ function App() {
 					data-testid='text-input'
 					onInput={(event) => setText(event.target.value)}
 					onKeyDown={(event) => handleTabEvent(event, text, setText)}
+					onSelect={(event) => {
+						setSelection({
+							start: event.target.selectionStart,
+							end: event.target.selectionEnd,
+							presented: true,
+						});
+					}}
 					placeholder='Enter text to analyze'
+					ref={textArea}
 					value={text}
 				></textarea>
 				<div className='d-flex flex-column'>
 					<Frequency wordList={listOfWords} />
-					<Replace text={text} setText={setText} />
+					<Replace
+						text={text}
+						setText={setText}
+						selection={selection}
+						setSelection={(start, end) =>
+							setSelection({
+								start: start,
+								end: end,
+								presented: false,
+							})
+						}
+					/>
 				</div>
 			</div>
 		</div>
@@ -47,6 +79,22 @@ function handleTabEvent(event, textInput, setTextInput) {
 			event.target.selectionEnd = start + 1;
 		}
 	}
+}
+
+export function setSelectedText(textArea, startPosition, endPosition = startPosition) {
+	if (startPosition > endPosition) {
+		endPosition = startPosition;
+	}
+
+	// Instead of manually setting scroll bar position in pixels, we substring
+	// the text value, scroll to the end, and then restore the original text.
+	const savedText = textArea.current.value;
+	textArea.current.value = savedText.slice(0, endPosition);
+	textArea.current.scrollTop = textArea.current.scrollHeight;
+	textArea.current.value = savedText;
+
+	textArea.current.setSelectionRange(startPosition, endPosition);
+	textArea.current.focus();
 }
 
 export function listWords(textInput) {

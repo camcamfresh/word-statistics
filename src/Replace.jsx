@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-function Replace({ text, setText }) {
+function Replace({ text, setText, selection, setSelection }) {
 	const [search, setSearch] = useState('');
 	const [replace, setReplace] = useState('');
 
