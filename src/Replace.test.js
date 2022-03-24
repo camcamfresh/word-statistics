@@ -1,12 +1,16 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Replace from './Replace';
+import Replace, {
+	getSearchRegex,
+	getStartWordRegex,
+	getRegexFlags,
+} from './Replace';
 
 describe('rendering', () => {
 	it("displays 'Find & Replace' label", () => {
 		render(<Replace />);
 
-		const element = screen.queryByText('Find & Replace');
+		const element = screen.queryByText('Find & Replace Words');
 		expect(element).toBeInTheDocument();
 	});
 
@@ -45,16 +49,16 @@ describe('rendering', () => {
 
 		const buttons = screen.queryAllByRole('button');
 
-		buttons.forEach(button => {
+		buttons.forEach((button) => {
 			expect(button.disabled).toBeTruthy();
 		});
 	});
 
 	it('enables "Find Next" button when text & search words are present', () => {
-		render(<Replace text="This is example text." />);
+		render(<Replace text='This is example text.' />);
 
 		const findInput = screen.getByTestId('find-input');
-		userEvent.type(findInput, "a");
+		userEvent.type(findInput, 'a');
 
 		const findButton = screen.queryByText('Find Next');
 		expect(findButton.disabled).toBeFalsy();
@@ -70,9 +74,81 @@ describe('rendering', () => {
 		userEvent.type(replaceInput, 'a');
 
 		const buttons = screen.queryAllByRole('button');
-		buttons.forEach(button => {
+		buttons.forEach((button) => {
 			expect(button.disabled).toBeFalsy();
 		});
 	});
-
 });
+
+describe('getSearchRegex', () => {
+	it('matches searches at beginning', () => {
+		const searchRegex = getSearchRegex('matcher');
+
+		expect('matcher example'.match(searchRegex)).toBeTruthy();
+	});
+
+	it('matches searches at end', () => {
+		const searchRegex = getSearchRegex('matcher');
+
+		expect('example matcher'.match(searchRegex)).toBeTruthy();
+	});
+
+	it('matches searches without leading or trailing punctuation', () => {
+		const searchRegex = getSearchRegex('matcher');
+
+		expect('matcher!'.match(searchRegex)).toBeTruthy();
+		expect('?matcher'.match(searchRegex)).toBeTruthy();
+		expect('matcher.'.match(searchRegex)).toBeTruthy();
+	});
+
+	it('matches searches within braces or brackets', () => {
+		const searchRegex = getSearchRegex('matcher');
+
+		expect('(matcher)'.match(searchRegex)).toBeTruthy();
+		expect('[matcher]'.match(searchRegex)).toBeTruthy();
+		expect('{matcher}'.match(searchRegex)).toBeTruthy();
+	});
+
+	it('does not match words with apostrophes', () => {
+		const searchRegex = getSearchRegex('matcher');
+
+		expect('matcher\''.match(searchRegex)).toBeFalsy();
+		expect('matcher\'s'.match(searchRegex)).toBeFalsy();
+	});
+});
+
+describe('getStartWordRegex', () => {
+	it('matches starting words', () => {
+		const searchRegex = getStartWordRegex('must');
+
+		expect("must".match(searchRegex)).toBeTruthy();
+	});
+
+	it('does not match non-starting words', () => {
+		const searchRegex = getStartWordRegex('must');
+
+		expect(' must'.match(searchRegex)).toBeFalsy();
+	});
+});
+
+describe('getRegexFlags', () => {
+	it('return ignore case by default', () => {
+		expect(getRegexFlags()).toEqual('i');
+	});
+
+	
+	it('returns empty string when case sensitive', () => {
+		expect(getRegexFlags(true)).toEqual('');
+	});
+	
+	it('returns non global by default', () => {
+		expect(getRegexFlags(false)).toEqual('i');
+	});
+	
+	it('returns global when global true', () => {
+		expect(getRegexFlags(false, true)).toEqual('ig');
+		expect(getRegexFlags(true, true)).toEqual('g');
+	});
+	
+});
+

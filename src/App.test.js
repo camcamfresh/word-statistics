@@ -107,6 +107,27 @@ describe('select text', () => {
 		expect(recievedEnd).toEqual(10);
 		expect(focusCalled).toBeTruthy();
 	});
+
+	it('highlight selected test', () => {
+		const text = "This is an example sentence.";
+		const search = "example";
+
+		render(<App />);
+		
+		const textarea = screen.queryByTestId('text-input');
+		userEvent.type(textarea, text);
+
+		const findInput = screen.queryByTestId('find-input');
+		userEvent.type(findInput, search);
+
+		const findButton = screen.queryByText('Find Next');
+		userEvent.click(findButton);
+
+		const expectedStart = text.indexOf(search);
+		const expectedEnd = expectedStart + search.length;
+		expect(textarea.selectionStart).toEqual(expectedStart);
+		expect(textarea.selectionEnd).toEqual(expectedEnd);
+	});
 });
 
 describe('listWords', () => {

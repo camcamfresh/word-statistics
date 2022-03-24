@@ -22,56 +22,59 @@ function App() {
 	const listOfWords = listWords(text);
 
 	return (
-		<div className='d-flex flex-column h-100'>
-			<h1>Word Statistics</h1>
-			<div className='d-flex flex-row flex-fill overflow-auto'>
-				<textarea
-					className='flex-grow-1 ml-2 mb-2'
-					data-testid='text-input'
-					onInput={(event) => setText(event.target.value)}
-					onKeyDown={(event) => handleTabEvent(event, text, setText)}
-					onSelect={(event) => {
-						setSelection({
-							start: event.target.selectionStart,
-							end: event.target.selectionEnd,
-							presented: true,
-						});
-					}}
-					placeholder='Enter text to analyze'
-					ref={textArea}
-					value={text}
-				></textarea>
-				<div className='d-flex flex-column'>
-					<Frequency wordList={listOfWords} />
-					<Replace
-						text={text}
-						setText={setText}
-						selection={selection}
-						setSelection={(start, end) =>
+		<div className='d-flex flex-row h-100 w-100'>
+			<div className='d-flex flex-column flex-grow-1 h-100'>
+				<h2>Word Statistics</h2>
+				<div className='d-flex flex-row flex-fill overflow-auto'>
+					<textarea
+						className='flex-grow-1 ml-2 mb-2'
+						data-testid='text-input'
+						onInput={(event) => setText(event.target.value)}
+						onKeyDown={(event) => handleTabEvent(event, setText)}
+						onSelect={(event) => {
 							setSelection({
-								start: start,
-								end: end,
-								presented: false,
-							})
-						}
-					/>
+								start: event.target.selectionStart,
+								end: event.target.selectionEnd,
+								presented: true,
+							});
+						}}
+						placeholder='Enter text to analyze'
+						ref={textArea}
+						value={text}
+					></textarea>
 				</div>
+			</div>
+			<div className='d-flex flex-column'>
+				<Frequency wordList={listOfWords} />
+				<Replace
+					text={text}
+					setText={setText}
+					selection={selection}
+					setSelection={(start, end) =>
+						setSelection({
+							start: start,
+							end: end,
+							presented: false,
+						})
+					}
+				/>
 			</div>
 		</div>
 	);
 }
 
-function handleTabEvent(event, textInput, setTextInput) {
+function handleTabEvent(event, setTextInput) {
 	if (event.key === 'Tab') {
 		event.preventDefault();
+
 		if (event.shiftKey) {
 			document.getElementById('find-input').focus();
 		} else {
 			const start = event.target.selectionStart;
 			const end = event.target.selectionEnd;
 
-			const textWithTab =
-				textInput.slice(0, start) + '\t' + textInput.slice(end);
+			const text = event.target.value;
+			const textWithTab = text.slice(0, start) + '\t' + text.slice(end);
 			setTextInput(textWithTab);
 
 			event.target.value = textWithTab;
