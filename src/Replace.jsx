@@ -42,6 +42,17 @@ function Replace({ text, setText, selection, setSelection }) {
 				<button
 					className='align-self-center mb-2 w-50'
 					disabled={isInvalidSearch || isInvalidReplace}
+					onClick={() =>
+						onReplace(
+							search,
+							replace,
+							text,
+							setText,
+							selection,
+							setSelection,
+							setResult
+						)
+					}
 				>
 					Replace
 				</button>
@@ -74,8 +85,8 @@ export function findNext(search, text, selection) {
 		cursorEnd = text.length;
 	}
 
-	const searchRegex = getSearchRegex(search, false);
-	const wordRegex = getStartWordRegex(search, false);
+	const searchRegex = getSearchRegex(search);
+	const wordRegex = getStartWordRegex(search);
 
 	const nextString = text.slice(cursorEnd);
 	const nextMatch = nextString.match(searchRegex);
@@ -93,7 +104,55 @@ export function findNext(search, text, selection) {
 	}
 }
 
-export function getSearchRegex(search, isCaseSensitive = false, isGlobal = false) {
+export function onReplace(
+	search,
+	replace,
+	text,
+	setText,
+	selection,
+	setSelection,
+	setResult
+) {
+	const selected = text.slice(selection.start, selection.end);
+	let cursorStart = selection.start;
+
+	if (!selected.match(getStartWordRegex(search))) {
+		const next = findNext(search, text, selection);
+
+		if (next?.length !== 2) {
+			setResult('No results found.');
+			return;
+		}
+		cursorStart = next[0];
+	}
+
+	const searchRegex = getSearchRegex(search);
+	const replaceRegex = getWordRegex(search);
+	const onReplace = (match) => match.replace(replaceRegex, replace);
+
+	const newText =
+		text.slice(0, cursorStart) +
+		text.slice(cursorStart).replace(searchRegex, onReplace);
+
+	const next = findNext(search, newText, {
+		start: cursorStart,
+		end: cursorStart,
+	});
+
+	setText(newText);
+	if (next?.length === 2) {
+		setSelection(next[0], next[1]);
+		setResult('Word replaced.');
+	} else {
+		setResult('Last word replaced.');
+	}
+}
+
+export function getSearchRegex(
+	search,
+	isCaseSensitive = false,
+	isGlobal = false
+) {
 	return new RegExp(
 		'(^|[\t\n ,.!?;:~"`(){}\\[\\]])' +
 			search +
@@ -102,8 +161,20 @@ export function getSearchRegex(search, isCaseSensitive = false, isGlobal = false
 	);
 }
 
-export function getStartWordRegex(search, isCaseSensitive = false, isGlobal = false) {
-	return new RegExp("^" + search, getRegexFlags(isCaseSensitive, isGlobal));
+export function getStartWordRegex(
+	search,
+	isCaseSensitive = false,
+	isGlobal = false
+) {
+	return new RegExp('^' + search, getRegexFlags(isCaseSensitive, isGlobal));
+}
+
+export function getWordRegex(
+	search,
+	isCaseSensitive = false,
+	isGlobal = false
+) {
+	return new RegExp(search, getRegexFlags(isCaseSensitive, isGlobal));
 }
 
 export function getRegexFlags(isCaseSensitive = false, isGlobal = false) {

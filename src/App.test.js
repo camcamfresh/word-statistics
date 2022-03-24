@@ -79,7 +79,7 @@ describe('keyboard input', () => {
 	});
 });
 
-describe('select text', () => {
+describe('select word', () => {
 	it('set text selection on callback', () => {
 		let recievedStart;
 		let recievedEnd;
@@ -109,11 +109,11 @@ describe('select text', () => {
 	});
 
 	it('highlight selected test', () => {
-		const text = "This is an example sentence.";
-		const search = "example";
+		const text = 'This is an example sentence.';
+		const search = 'example';
 
 		render(<App />);
-		
+
 		const textarea = screen.queryByTestId('text-input');
 		userEvent.type(textarea, text);
 
@@ -127,6 +127,35 @@ describe('select text', () => {
 		const expectedEnd = expectedStart + search.length;
 		expect(textarea.selectionStart).toEqual(expectedStart);
 		expect(textarea.selectionEnd).toEqual(expectedEnd);
+	});
+});
+
+describe('replace word', () => {
+	it('replaces the first word after the cursor position', () => {
+		const text = 'This example is an example sentence with many examples.';
+		const search = 'example';
+		const replace = 'wat';
+
+		render(<App />);
+
+		const textarea = screen.queryByTestId('text-input');
+		userEvent.type(textarea, text);
+
+		// Selection Range is not updated without typing from userEvent
+		textarea.setSelectionRange(15, 15);
+		userEvent.type(textarea, '{space}{backspace}');
+
+		const findInput = screen.queryByTestId('find-input');
+		userEvent.type(findInput, search);
+
+		const replaceInput = screen.queryByTestId('replace-input');
+		userEvent.type(replaceInput, replace);
+
+		const replaceButton = screen.queryByText('Replace');
+		userEvent.click(replaceButton);
+
+		console.log(textarea.value);
+		expect(textarea.value.startsWith('This example is an wat')).toBeTruthy();
 	});
 });
 

@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import Replace, {
 	getSearchRegex,
 	getStartWordRegex,
+	getWordRegex,
 	getRegexFlags,
 } from './Replace';
 
@@ -112,8 +113,8 @@ describe('getSearchRegex', () => {
 	it('does not match words with apostrophes', () => {
 		const searchRegex = getSearchRegex('matcher');
 
-		expect('matcher\''.match(searchRegex)).toBeFalsy();
-		expect('matcher\'s'.match(searchRegex)).toBeFalsy();
+		expect("matcher'".match(searchRegex)).toBeFalsy();
+		expect("matcher's".match(searchRegex)).toBeFalsy();
 	});
 });
 
@@ -121,7 +122,7 @@ describe('getStartWordRegex', () => {
 	it('matches starting words', () => {
 		const searchRegex = getStartWordRegex('must');
 
-		expect("must".match(searchRegex)).toBeTruthy();
+		expect('must'.match(searchRegex)).toBeTruthy();
 	});
 
 	it('does not match non-starting words', () => {
@@ -131,24 +132,35 @@ describe('getStartWordRegex', () => {
 	});
 });
 
+describe('getWordRegex', () => {
+	it('matches starting words', () => {
+		const searchRegex = getWordRegex('must');
+
+		expect('must'.match(searchRegex)).toBeTruthy();
+	});
+
+	it('match middle words', () => {
+		const searchRegex = getWordRegex('must');
+
+		expect('one must eat'.match(searchRegex)).toBeTruthy();
+	});
+});
+
 describe('getRegexFlags', () => {
 	it('return ignore case by default', () => {
 		expect(getRegexFlags()).toEqual('i');
 	});
-
 	
 	it('returns empty string when case sensitive', () => {
 		expect(getRegexFlags(true)).toEqual('');
 	});
-	
+
 	it('returns non global by default', () => {
 		expect(getRegexFlags(false)).toEqual('i');
 	});
-	
+
 	it('returns global when global true', () => {
 		expect(getRegexFlags(false, true)).toEqual('ig');
 		expect(getRegexFlags(true, true)).toEqual('g');
 	});
-	
 });
-
