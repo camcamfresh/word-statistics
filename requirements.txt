@@ -1,0 +1,53 @@
+Definitions:
+	Separator is a space, tab, or newline.
+	Punctuation is any of the following characters: .,?!(){}[]"
+	Word is one or more characters all of which are neither a separator nor a punctuation character.
+
+Software Requirements Specification:
+	- Program shall be compatible with most devices:
+		- Program shall be written in HTML
+		- All logic shall be implemented client side
+		- No external APIs shall be called when run (exempting CSS)
+	- Program must allow input of text. It will:
+		- accept all ASCII character types, including tabs
+		- use space, tab, and newline characters as separators
+		- allow the user to tab via shift-tab to other HTML areas
+		- be the primary element on the screen
+	- Program must count the frequency of each unique word. It will:
+		- count contractions (e.g., isn't, would've, etc.) as unique words
+		- ignore basic punctuation including: .,?!(){}[]"
+		- ignore case (subject to change)
+		- must display frequency and word in separate area
+	- Program must allow for the replacement of all occurrences of a given word with a replacement word. It will:
+		- allow the user to input a search word
+		- allow the user to input a replacement word
+		- allow the user to find their search word. The search:
+			- shall ignore case (subject to change)
+			- shall start from the last cursor position or the end of the highlighted position
+			- shall cycle back to the top of the text after reaching the bottom without limit
+			- once found, the corresponding text in the primary element shall be highlighted
+				- if needed the program shall adjust any required scrolling to display the highlighted result
+			- if no result is found a message indicating so shall be presented near the button clicked
+				- result message shall not move the positioning of buttons
+		- allow the user to replace a single occurrence of a word with the replacement word
+			- shall follow the same requirements for searches.
+			- shall be case-sensitive for replacements
+			- shall replace highlighted word if matches the search term
+			- shall replace the next occurrence if highlighted word (if present) does not match the search term
+			- shall replace the next occurrence after the cursor if no part of the text is highlighted
+			- shall display a message on replacement
+				- shall display a custom message if it is the last replacement
+			- shall display a message if no replacement is found.
+			- shall highlight the next occurrence after replacement
+			
+			- if no word is highlighted, program will find the next occurrence of the search word and replace that
+			- on replacement the program will highlight the next occurrence of the search word
+				
+				- if no next word is available, shall display a message stating so.
+			- no replacement shall be done if a replacement word is absent
+		- allow the user to replace all occurrences of the word with the replacement word
+			- shall follow the same requirements for searches.
+			- shall be case-sensitive for replacements
+			- the user cursor shall be placed at the end of the primary text area when successful
+			- if no result is found a message indicating so shall be presented near the button clicked
+			- no replacement shall be done if a replacement word is absent

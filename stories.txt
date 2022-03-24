@@ -1,0 +1,90 @@
+Create initial project:
+	Description:
+		As a developer, I need to create a basic React project and upload it to Github, so that all code change can be tracked in a central location.
+	Acceptance Criteria:
+		Basic React Project is available on Github.
+		
+Add basic developer tools:
+	Description:
+		As a developer, I need to add eslint and prettier to the project, so that all code can follow a standardize format and pattern.
+	Acceptance Criteria:
+		Code can be formatted with prettier.
+		Eslint can run check on project.
+		
+Configure project basics:
+	Description:
+		As a developer, I need to remove unnecessary code and update the README, so that when the repository is shared other developer can quickly start on the project.
+	Acceptance Criteria:
+		Default React App code is removed.
+		README is updated with project information
+		
+Add textarea and bootstrap CSS:
+	Description:
+		As a user, I need to input text onto the page, so that it can later be analyzed
+		As a developer, I need to add bootstrap to the project, so that CSS is easier to manage.
+	Acceptance Criteria:
+		Textarea renders on the screen
+		Bootstrap CSS is inserted into index.html scripts area.
+		
+Add word frequency area:
+	Description:
+		As a user, I need to view the frequency of the words, so that I can analyze the text.
+	Acceptance Criteria:
+		An area renders to the page for word frequency.
+		
+Save text input in App state:
+	Description:
+		As a user, I need the text I input to be saved into React's state, so that I can view the results in different areas of the application.
+	Acceptance Criteria:
+		Text Input can be retrieved from the textarea.
+	
+Add support for tabs in textarea:
+	Description:
+		As a user, I need to input tabs in the textarea, so that I can utilize every separator available.
+	Acceptance Criteria:
+		When textarea is focus, tabs are inserted into the textarea instead of focusing on the next HTML element.
+
+Add word frequency logic:
+	Description:
+		As a user, I need to view the frequency of words in the frequency area, so that I know how often words are used.
+	Acceptance Criteria:
+		Text input in the textarea renders the words and their frequency in the frequency area.
+		
+Add UI Elements for Find & Replace:
+	Description:
+		As a user, I need to input text for find & replace and click buttons so that words are found and replaced in the main text area.
+	Acceptance Criteria:
+		User can input find & replace text
+		Buttons are display for find, replace, and replace all
+		
+Disable Buttons on Presence of Text:
+	Description:
+		As a user, I need to be prevented from clicking buttons that cannot function, so that I don't think the application is broken.
+	Acceptance Criteria:
+		When textarea is empty all buttons are disabled.
+		When find word is empty all buttons are disabled.
+		When replace word is empty replace buttons are disabled.
+		
+Pass text selection reference to replace component:
+	Description:
+		As a user, I need to be shown where the words are in the textarea, so that I know which word might be replaced.
+	Acceptance Criteria:
+		A callback function is created for textarea that highlights text.
+		
+Add find next functionality:
+	Description:
+		As a user, when I click Find Next then the word is highlighted in the textarea, so that I know which word might be replaced.
+	Acceptance Criteria:
+		Clicking on find next button, actually highlighted text in textarea.
+		
+Add replace functionality:
+	Description:
+		As a user, when I click replace then a single word in the text area is replaced.
+	Acceptance Criteria:
+		Clicking replace button replaces a single word according to requirement on replace functionality.
+		
+Add replace all functionality:
+	Description:
+		As a user, when I click replace all then all matching words in the textarea are replaced.
+	Acceptance Criteria:
+		Clicking replace all button causes all matching words to be replaced with the replacement word. 
