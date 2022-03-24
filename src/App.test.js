@@ -154,8 +154,29 @@ describe('replace word', () => {
 		const replaceButton = screen.queryByText('Replace');
 		userEvent.click(replaceButton);
 
-		console.log(textarea.value);
 		expect(textarea.value.startsWith('This example is an wat')).toBeTruthy();
+	});
+
+	it('replaces all words', () => {
+		const text = 'This example is an example sentence with many examples.';
+		const search = 'example';
+		const replace = 'huh';
+
+		render(<App />);
+
+		const textarea = screen.queryByTestId('text-input');
+		userEvent.type(textarea, text);
+
+		const findInput = screen.queryByTestId('find-input');
+		userEvent.type(findInput, search);
+
+		const replaceInput = screen.queryByTestId('replace-input');
+		userEvent.type(replaceInput, replace);
+
+		const replaceAllButton = screen.queryByText('Replace All');
+		userEvent.click(replaceAllButton);
+
+		expect(textarea.value.startsWith('This huh is an huh')).toBeTruthy();
 	});
 });
 

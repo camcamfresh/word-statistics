@@ -59,6 +59,16 @@ function Replace({ text, setText, selection, setSelection }) {
 				<button
 					className='align-self-center mb-2 w-50'
 					disabled={isInvalidSearch || isInvalidReplace}
+					onClick={() =>
+						onReplaceAll(
+							search,
+							replace,
+							text,
+							setText,
+							setSelection,
+							setResult
+						)
+					}
 				>
 					Replace All
 				</button>
@@ -148,15 +158,31 @@ export function onReplace(
 	}
 }
 
+function onReplaceAll(search, replace, text, setText, setSelection, setResult) {
+	const searchRegex = getSearchRegex(search, false, true);
+	if (!text.match(searchRegex)) {
+		setResult('No results found.');
+		return;
+	}
+
+	const replaceRegex = getWordRegex(search, false, true);
+	const onReplace = (match) => match.replace(replaceRegex, replace);
+	const newText = text.replace(searchRegex, onReplace);
+
+	setText(newText);
+	setSelection(0, 0);
+	setResult('All words replaced.');
+}
+
 export function getSearchRegex(
 	search,
 	isCaseSensitive = false,
 	isGlobal = false
 ) {
 	return new RegExp(
-		'(^|[\t\n ,.!?;:~"`(){}\\[\\]])' +
+		'(?:^|[\t\n ,.!?;:~"`(){}\\[\\]])' +
 			search +
-			'($|[\t\n ,.!?;:~"`(){}\\[\\]])',
+			'(?=$|[\t\n ,.!?;:~"`(){}\\[\\]])',
 		getRegexFlags(isCaseSensitive, isGlobal)
 	);
 }
