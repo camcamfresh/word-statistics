@@ -72,7 +72,10 @@ function Replace({ text, setText, selection, setSelection }) {
 				>
 					Replace All
 				</button>
-				<div className='align-self-center pt-1'>{result}</div>
+				<div className='align-self-center pt-1'>
+					<span disabled>&nbsp;</span>
+					{result}
+				</div>
 			</div>
 		</div>
 	);
