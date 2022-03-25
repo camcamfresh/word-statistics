@@ -79,6 +79,33 @@ describe('rendering', () => {
 			expect(button.disabled).toBeFalsy();
 		});
 	});
+
+	it('disables all buttons if search contains separator', () => {
+		render(<Replace text='This is example text.' />);
+
+		const findInput = screen.getByTestId('find-input');
+		userEvent.type(findInput, ' ');
+
+		const buttons = screen.queryAllByRole('button');
+		buttons.forEach((button) => {
+			expect(button.disabled).toBeTruthy();
+		});
+	});	
+
+	it('disables replace buttons if contains separator', () => {
+		render(<Replace text='This is example text.' />);
+
+		const findInput = screen.getByTestId('find-input');
+		userEvent.type(findInput, 'a');
+
+		const replaceInput = screen.getByTestId('replace-input');
+		userEvent.type(replaceInput, ' ');
+
+		const buttons = screen.queryAllByRole('button');
+		expect(buttons[0].disabled).toBeFalsy();
+		expect(buttons[1].disabled).toBeTruthy();
+		expect(buttons[2].disabled).toBeTruthy();
+	});
 });
 
 describe('getSearchRegex', () => {

@@ -20,7 +20,9 @@ Software Requirements Specification:
 		- must display frequency and word in separate area
 	- Program must allow for the replacement of all occurrences of a given word with a replacement word. It will:
 		- allow the user to input a search word
+			- shall not allow separators
 		- allow the user to input a replacement word
+			- shall not allow separators
 		- allow the user to find their search word. The search:
 			- shall ignore case (subject to change)
 			- shall start from the last cursor position or the end of the highlighted position
@@ -35,16 +37,10 @@ Software Requirements Specification:
 			- shall replace highlighted word if matches the search term
 			- shall replace the next occurrence if highlighted word (if present) does not match the search term
 			- shall replace the next occurrence after the cursor if no part of the text is highlighted
+			- shall highlight the next occurrence after replacement
 			- shall display a message on replacement
 				- shall display a custom message if it is the last replacement
-			- shall display a message if no replacement is found.
-			- shall highlight the next occurrence after replacement
-			
-			- if no word is highlighted, program will find the next occurrence of the search word and replace that
-			- on replacement the program will highlight the next occurrence of the search word
-				
-				- if no next word is available, shall display a message stating so.
-			- no replacement shall be done if a replacement word is absent
+			- shall display a message if no replacement is found
 		- allow the user to replace all occurrences of the word with the replacement word
 			- shall follow the same requirements for searches.
 			- shall be case-sensitive for replacements

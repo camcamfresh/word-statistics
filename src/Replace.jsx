@@ -5,8 +5,11 @@ function Replace({ text, setText, selection, setSelection }) {
 	const [replace, setReplace] = useState('');
 	const [result, setResult] = useState('');
 
-	const isInvalidSearch = text === '' || search === '';
-	const isInvalidReplace = isInvalidSearch || replace === '';
+	const delimeterRegex = /\n|\t| /;
+	const isInvalidSearch =
+		text === '' || search === '' || search.match(delimeterRegex);
+	const isInvalidReplace =
+		isInvalidSearch || replace === '' || replace.match(delimeterRegex);
 
 	return (
 		<div>
