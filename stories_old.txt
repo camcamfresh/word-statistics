@@ -88,3 +88,10 @@ Add replace all functionality:
 		As a user, when I click replace all then all matching words in the textarea are replaced.
 	Acceptance Criteria:
 		Clicking replace all button causes all matching words to be replaced with the replacement word. 
+
+Check for separators in find/replace input:
+	Description:
+		As a user, when I input separators in the find/replace input then the buttons should be disabled, so that I do not find/replace strings that are not words.
+	Acceptance Criteria:
+		Inputting a separator in the find input disables all buttons
+		Inputting a separator in the replace input disables the replace buttons

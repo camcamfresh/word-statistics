@@ -1,23 +1,108 @@
 Definitions:
-	Separator is a space, tab, or newline.
+    Separator is a space, tab, or newline.
 	Punctuation is any of the following characters: .,?!(){}[]"
 	Word is one or more characters all of which are neither a separator nor a punctuation character.
 
 Software Requirements Specification:
+Requirement 1:
 	- Program shall be compatible with most devices:
 		- Program shall be written in HTML
 		- All logic shall be implemented client side
 		- No external APIs shall be called when run (exempting CSS)
+	Stories:
+		- Create initial project:
+			Description:
+				As a developer, I need to create a basic React project and upload it to Github, so that all code change can be tracked in a central location.
+			Acceptance Criteria:
+				Basic React Project is available on Github.		
+		- Add basic developer tools:
+			Description:
+				As a developer, I need to add eslint and prettier to the project, so that all code can follow a standardize format and pattern.
+			Acceptance Criteria:
+				Code can be formatted with prettier.
+				Eslint can run check on project.
+		- Configure project basics:
+			Description:
+				As a developer, I need to remove unnecessary code and update the README, so that when the repository is shared other developer can quickly start on the project.
+			Acceptance Criteria:
+				Default React App code is removed.
+				README is updated with project information
+	Test Cases:
+		App.test.js
+			rendering
+				√ displays title (57 ms)
+Requirement 2:
 	- Program must allow input of text. It will:
 		- accept all ASCII character types, including tabs
 		- use space, tab, and newline characters as separators
 		- allow the user to tab via shift-tab to other HTML areas
 		- be the primary element on the screen
+	Stories:
+		- Add textarea and bootstrap CSS:
+			Description:
+				As a user, I need to input text onto the page, so that it can later be analyzed
+				As a developer, I need to add bootstrap to the project, so that CSS is easier to manage.
+			Acceptance Criteria:
+				Textarea renders on the screen
+				Bootstrap CSS is inserted into index.html scripts area.		
+		- Add word frequency area:
+			Description:
+				As a user, I need to view the frequency of the words, so that I can analyze the text.
+			Acceptance Criteria:
+				An area renders to the page for word frequency.		
+		- Save text input in App state:
+			Description:
+				As a user, I need the text I input to be saved into React's state, so that I can view the results in different areas of the application.
+			Acceptance Criteria:
+				Text Input can be retrieved from the textarea.
+		- Add support for tabs in textarea:
+			Description:
+				As a user, I need to input tabs in the textarea, so that I can utilize every separator available.
+			Acceptance Criteria:
+				When textarea is focus, tabs are inserted into the textarea instead of focusing on the next HTML element.
+	Test Cases:
+		App.test.js
+			rendering
+				√ displays title (57 ms)
+				√ displays text area (12 ms)
+				√ displays frequency label (10 ms)
+			keyboard input
+				√ updates textarea (105 ms)
+				√ inserts tabs in textarea (122 ms)
+				√ retains cursor position after tab (83 ms)
+				√ replaces selected text on tab (64 ms)
+				√ does not respond to shift-tab (78 ms)
+Requirement 3:
 	- Program must count the frequency of each unique word. It will:
 		- count contractions (e.g., isn't, would've, etc.) as unique words
 		- ignore basic punctuation including: .,?!(){}[]"
 		- ignore case (subject to change)
 		- must display frequency and word in separate area
+	Stories:
+		- Add word frequency logic:
+			Description:
+				As a user, I need to view the frequency of words in the frequency area, so that I know how often words are used.
+			Acceptance Criteria:
+				Text input in the textarea renders the words and their frequency in the frequency area.
+	Test Cases:
+		Frequency.test.js
+			rendering
+				√ displays frequency label (28 ms)
+				√ displays each word in list (7 ms)
+				√ displays each word with frequency (5 ms)
+				√ displays words based on most frequent (6 ms)
+		App.test.js
+			rendering
+				√ displays frequency label (10 ms)
+			listWords
+				√ returns an empty with no input
+				√ returns an empty with whitespaces
+				√ returns input as words
+				√ does not return empty strings (1 ms)
+				√ removes most punctionation
+				√ converts characters to lowercase
+				√ retains apostrhpe punctiation mark (1 ms)
+Requirement 4:
 	- Program must allow for the replacement of all occurrences of a given word with a replacement word. It will:
 		- allow the user to input a search word
 			- shall not allow separators
@@ -47,3 +132,85 @@ Software Requirements Specification:
 			- the user cursor shall be placed at the end of the primary text area when successful
 			- if no result is found a message indicating so shall be presented near the button clicked
 			- no replacement shall be done if a replacement word is absent
+	Stories:
+	- Add UI Elements for Find & Replace:
+		Description:
+			As a user, I need to input text for find & replace and click buttons so that words are found and replaced in the main text area.
+		Acceptance Criteria:
+			User can input find & replace text
+			Buttons are display for find, replace, and replace all		
+	- Disable Buttons on Presence of Text:
+		Description:
+			As a user, I need to be prevented from clicking buttons that cannot function, so that I don't think the application is broken.
+		Acceptance Criteria:
+			When textarea is empty all buttons are disabled.
+			When find word is empty all buttons are disabled.
+			When replace word is empty replace buttons are disabled.
+	- Pass text selection reference to replace component:
+		Description:
+			As a user, I need to be shown where the words are in the textarea, so that I know which word might be replaced.
+		Acceptance Criteria:
+			A callback function is created for textarea that highlights text.
+	- Add find next functionality:
+		Description:
+			As a user, when I click Find Next then the word is highlighted in the textarea, so that I know which word might be replaced.
+		Acceptance Criteria:
+			Clicking on find next button, actually highlighted text in textarea.
+	- Add replace functionality:
+		Description:
+			As a user, when I click replace then a single word in the text area is replaced.
+		Acceptance Criteria:
+			Clicking replace button replaces a single word according to requirement on replace functionality.
+	- Add replace all functionality:
+		Description:
+			As a user, when I click replace all then all matching words in the textarea are replaced.
+		Acceptance Criteria:
+			Clicking replace all button causes all matching words to be replaced with the replacement word. 
+	- Check for separators in find/replace input:
+		Description:
+			As a user, when I input separators in the find/replace input then the buttons should be disabled, so that I do not find/replace strings that are not words.
+		Acceptance Criteria:
+			Inputting a separator in the find input disables all buttons
+			Inputting a separator in the replace input disables the replace buttons
+	Test Cases:
+		Replace.test.js
+			rendering
+				√ displays 'Find & Replace' label (42 ms)
+				√ display input labels for both find & replace (10 ms)
+				√ displays find input (7 ms)
+				√ displays buttons (71 ms)
+				√ disables buttons when there is no text (25 ms)
+				√ enables "Find Next" button when text & search words are present (31 ms)
+				√ enables "Replace" & "Replace All" buttons when text, search, & replace words are present (38 ms)
+				√ disables all buttons if search contains separator (27 ms)
+				√ disables replace buttons if contains separator (39 ms)
+			getSearchRegex
+				√ matches searches at beginning (1 ms)
+				√ matches searches at end (1 ms)
+				√ matches searches without leading or trailing punctuation
+				√ matches searches within braces or brackets (1 ms)
+				√ does not match words with apostrophes (1 ms)
+			getStartWordRegex
+				√ matches starting words
+				√ does not match non-starting words
+			getWordRegex
+				√ matches starting words
+				√ match middle words
+			getRegexFlags
+				√ return ignore case by default
+				√ returns empty string when case sensitive (1 ms)
+				√ returns non global by default
+				√ returns global when global true
+		 App.test.js
+			keyboard input
+				√ updates textarea (105 ms)
+				√ inserts tabs in textarea (122 ms)
+				√ retains cursor position after tab (83 ms)
+				√ replaces selected text on tab (64 ms)
+				√ does not respond to shift-tab (78 ms)
+			select word
+				√ set text selection on callback (1 ms)
+				√ highlight selected test (113 ms)
+			replace word
+				√ replaces the first word after the cursor position (214 ms)
+				√ replaces all words (183 ms)
