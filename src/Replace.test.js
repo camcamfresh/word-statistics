@@ -41,8 +41,9 @@ describe('rendering', () => {
 		const buttons = screen.queryAllByRole('button');
 
 		expect(buttons[0].innerHTML).toEqual('Find Next');
-		expect(buttons[1].innerHTML).toEqual('Replace');
-		expect(buttons[2].innerHTML).toEqual('Replace All');
+		expect(buttons[1].innerHTML).toEqual('grepline');
+		expect(buttons[2].innerHTML).toEqual('Replace');
+		expect(buttons[3].innerHTML).toEqual('Replace All');
 	});
 
 	it('disables buttons when there is no text', () => {
@@ -55,7 +56,7 @@ describe('rendering', () => {
 		});
 	});
 
-	it('enables "Find Next" button when text & search words are present', () => {
+	it('enables Find buttons when text & search words are present', () => {
 		render(<Replace text='This is example text.' />);
 
 		const findInput = screen.getByTestId('find-input');
@@ -63,6 +64,9 @@ describe('rendering', () => {
 
 		const findButton = screen.queryByText('Find Next');
 		expect(findButton.disabled).toBeFalsy();
+
+		const findAllButton = screen.queryByText('grepline');
+		expect(findAllButton.disabled).toBeFalsy();
 	});
 
 	it('enables "Replace" & "Replace All" buttons when text, search, & replace words are present', () => {
@@ -103,8 +107,9 @@ describe('rendering', () => {
 
 		const buttons = screen.queryAllByRole('button');
 		expect(buttons[0].disabled).toBeFalsy();
-		expect(buttons[1].disabled).toBeTruthy();
+		expect(buttons[1].disabled).toBeFalsy();
 		expect(buttons[2].disabled).toBeTruthy();
+		expect(buttons[3].disabled).toBeTruthy();
 	});
 });
 

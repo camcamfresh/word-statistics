@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 function Replace({ text, setText, selection, setSelection }) {
 	const [search, setSearch] = useState('');
@@ -12,7 +12,7 @@ function Replace({ text, setText, selection, setSelection }) {
 		isInvalidSearch || replace === '' || replace.match(delimeterRegex);
 
 	return (
-		<div>
+		<div className='d-flex flex-column'>
 			<label className='align-self-center'>Find &amp; Replace Words</label>
 			<div className='d-flex flex-column overflow-auto mb-2 p-4'>
 				<div className='d-flex justify-content-between mb-2'>
@@ -41,6 +41,13 @@ function Replace({ text, setText, selection, setSelection }) {
 					}
 				>
 					Find Next
+				</button>
+				<button
+					className='align-self-center mb-2 w-50'
+					disabled={isInvalidSearch}
+					onClick={() => onFindAll(search, text, setResult)}
+				>
+					grepline
 				</button>
 				<button
 					className='align-self-center mb-2 w-50'
@@ -75,7 +82,11 @@ function Replace({ text, setText, selection, setSelection }) {
 				>
 					Replace All
 				</button>
-				<div className='align-self-center pt-1'>
+				<div
+					className='align-self-center text-center pt-1'
+					data-testid='result-text'
+					id='result-text'
+				>
 					<span disabled>&nbsp;</span>
 					{result}
 				</div>
@@ -93,6 +104,41 @@ export function onFindNext(search, text, selection, setSelection, setResult) {
 	} else {
 		setResult('No results found.');
 	}
+}
+
+export function onFindAll(search, text, setResult) {
+	const searchRegex = getSearchRegex(search, false, true);
+	if (!text.match(searchRegex)) {
+		setResult('No results found.');
+		return;
+	}
+
+	const lines = text
+		.split('\n')
+		.map((line, index) => line.match(searchRegex) && ++index)
+		.filter((index) => !!index);
+
+	setResult(
+		<>
+			Word found on the following line(s):
+			{lines.map((line, index) => {
+				let text = line;
+				if (index + 1 !== lines.length) {
+					text += ', ';
+				}
+
+				if (index % 10 === 0) {
+					return (
+						<React.Fragment key={text}>
+							<br />
+							{text}
+						</React.Fragment>
+					);
+				}
+				return text;
+			})}
+		</>
+	);
 }
 
 export function findNext(search, text, selection) {

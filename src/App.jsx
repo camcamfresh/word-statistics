@@ -27,7 +27,7 @@ function App() {
 				<h2>Word Statistics</h2>
 				<div className='d-flex flex-row flex-fill overflow-auto'>
 					<textarea
-						className='flex-grow-1 ml-2 mb-2'
+						className='flex-grow-1 ml-2 mb-2 overflow-scroll'
 						data-testid='text-input'
 						onInput={(event) => setText(event.target.value)}
 						onKeyDown={(event) => handleTabEvent(event, setText)}
@@ -94,6 +94,7 @@ export function setSelectedText(textArea, startPosition, endPosition = startPosi
 	const savedText = textArea.current.value;
 	textArea.current.value = savedText.slice(0, endPosition);
 	textArea.current.scrollTop = textArea.current.scrollHeight;
+	textArea.current.scrollLeft = textArea.current.scrollWidth;
 	textArea.current.value = savedText;
 
 	textArea.current.setSelectionRange(startPosition, endPosition);

@@ -214,3 +214,17 @@ Requirement 4:
 			replace word
 				√ replaces the first word after the cursor position (214 ms)
 				√ replaces all words (183 ms)
+Requirement 5:
+    - Program must display the line numbers for given search word. It will:
+        - intergrate with the search word from the find & replace feature.
+        - display line numbers on which search term is found.
+	Test Cases:
+		App.test.js
+			grepline
+				√ displays line numbers for given text (208 ms)
+		Replace.test.js
+			rendering
+				√ displays buttons (68 ms)
+				√ disables buttons when there is no text (31 ms)
+				√ enables Find buttons when text & search words are present (40 ms)
+				√ disables all buttons if search contains separator (38 ms)

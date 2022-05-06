@@ -130,6 +130,30 @@ describe('select word', () => {
 	});
 });
 
+describe('grepline', () => {
+	it('displays line numbers for given text', () => {
+		const text = `This is a multiline test
+			test
+			nope
+			test.`;
+		const search = 'test';
+
+		render(<App />);
+
+		const textarea = screen.queryByTestId('text-input');
+		userEvent.type(textarea, text);
+
+		const findInput = screen.queryByTestId('find-input');
+		userEvent.type(findInput, search);
+
+		const findAllButton = screen.queryByText('grepline');
+		userEvent.click(findAllButton);
+
+		const resultText = screen.queryByTestId('result-text');
+		expect(resultText.innerHTML.endsWith('1, 2, 4')).toBeTruthy();
+	});
+});
+
 describe('replace word', () => {
 	it('replaces the first word after the cursor position', () => {
 		const text = 'This example is an example sentence with many examples.';
