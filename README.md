@@ -13,6 +13,16 @@ To run the demo page:
 2. Right click on the page and save the file anywhere on your machine as index.html.
 3. Open the file in any browser.
 
+## Project Documentation
+
+- Requirements, see [requirements.txt](requirements.txt)
+- Specification, see [specification.txt](specification.txt)
+- Implementation, You found it!
+- README.md, You found it!
+- Unit Tests, Run `npm test` or see [unit_test_snapshot.txt](unit_test_snapshot.txt)
+- Design Change Report, see [design_change_report.txt](design_change_report.txt)
+- Tool Application Report, see [tool_application_report.txt](tool_application_report.txt)
+
 ## How do I run the project?
 
 This project requires node package manager (NPM) to be built and deployed to a local machine. See [nodejs.dev](https://nodejs.dev/) to install NPM.
