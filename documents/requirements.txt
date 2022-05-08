@@ -175,24 +175,32 @@ Requirement 4:
 	Test Cases:
 		Replace.test.js
 			rendering
-				√ displays 'Find & Replace' label (42 ms)
-				√ display input labels for both find & replace (10 ms)
-				√ displays find input (7 ms)
-				√ displays buttons (71 ms)
-				√ disables buttons when there is no text (25 ms)
-				√ enables "Find Next" button when text & search words are present (31 ms)
-				√ enables "Replace" & "Replace All" buttons when text, search, & replace words are present (38 ms)
-				√ disables all buttons if search contains separator (27 ms)
-				√ disables replace buttons if contains separator (39 ms)
+				√ displays 'Find & Replace' label (47 ms)
+				√ display input labels for both find & replace (9 ms)
+				√ displays find input (6 ms)
+				√ displays buttons (72 ms)
+				√ disables buttons when there is no text (29 ms)
+				√ enables Find buttons when text & search words are present (34 ms)
+				√ enables "Replace" & "Replace All" buttons when text, search, & replace words are present (46 ms)
+				√ disables all buttons if search contains separator (28 ms)
+				√ disables replace buttons if contains separator (37 ms)
+			action
+				√ sets no result when word not found on Find Next (15 ms)
+				√ sets no result when word not found on Find All (21 ms)
+				√ sets not result when word not found on replace (29 ms)
+				√ sets not result when word not found on replace all (31 ms)
+				√ sets no result when replaces last word (31 ms)
+				√ sets result replaced on replace (24 ms)
+				√ sets last result replaced on replace (21 ms)
 			getSearchRegex
 				√ matches searches at beginning (1 ms)
-				√ matches searches at end (1 ms)
+				√ matches searches at end
 				√ matches searches without leading or trailing punctuation
 				√ matches searches within braces or brackets (1 ms)
-				√ does not match words with apostrophes (1 ms)
+				√ does not match words with apostrophes
 			getStartWordRegex
-				√ matches starting words
-				√ does not match non-starting words
+				√ matches starting words       
+				√ does not match non-starting words (1 ms)
 			getWordRegex
 				√ matches starting words
 				√ match middle words
@@ -200,7 +208,7 @@ Requirement 4:
 				√ return ignore case by default
 				√ returns empty string when case sensitive (1 ms)
 				√ returns non global by default
-				√ returns global when global true
+				√ returns global when global true (1 ms)
 		 App.test.js
 			keyboard input
 				√ updates textarea (105 ms)
@@ -224,7 +232,29 @@ Requirement 5:
 				√ displays line numbers for given text (208 ms)
 		Replace.test.js
 			rendering
-				√ displays buttons (68 ms)
-				√ disables buttons when there is no text (31 ms)
-				√ enables Find buttons when text & search words are present (40 ms)
-				√ disables all buttons if search contains separator (38 ms)
+				√ displays 'Find & Replace' label (47 ms)
+				√ display input labels for both find & replace (9 ms)
+				√ displays buttons (72 ms)
+				√ disables buttons when there is no text (29 ms)
+				√ enables Find buttons when text & search words are present (34 ms)
+				√ enables "Replace" & "Replace All" buttons when text, search, & replace words are present (46 ms)
+				√ disables all buttons if search contains separator (28 ms)
+				√ disables replace buttons if contains separator (37 ms)
+			action
+				√ sets no result when word not found on Find Next (15 ms)
+				√ sets not result when word not found on replace (29 ms)
+				√ sets not result when word not found on replace all (31 ms)
+				√ sets no result when replaces last word (31 ms)
+				√ sets result replaced on replace (24 ms)
+				√ sets last result replaced on replace (21 ms)
+			getSearchRegex
+				√ matches searches at beginning (1 ms)
+				√ matches searches at end
+				√ matches searches without leading or trailing punctuation
+				√ matches searches within braces or brackets (1 ms)
+				√ does not match words with apostrophes
+			getRegexFlags
+				√ return ignore case by default
+				√ returns empty string when case sensitive (1 ms)
+				√ returns non global by default
+				√ returns global when global true (1 ms)

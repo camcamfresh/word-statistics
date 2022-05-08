@@ -21,8 +21,8 @@ To run the demo page:
 - README.md, You found it!
 - Unit Tests, Run `npm test` or see [/documents/unit_test_snapshot.txt](documents/unit_test_snapshot.txt)
   - Note: run tests with coverage using `npm run coverage`.
-- Design Change Report, see [/documents/design_change_report.txt](documents/design_change_report.txt)
-- Tool Application Report, see [/documents/tool_application_report.txt](documents/tool_application_report.txt)
+- Design Change Report, see [/documents/design_change_report.md](documents/design_change_report.md)
+- Tool Application Report, see [/documents/tool_application_report.md](documents/tool_application_report.md)
 
 ## How do I run the project?
 
