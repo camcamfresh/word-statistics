@@ -3,13 +3,31 @@ $ npm test -- --all --coverage --verbose --watchAll=false
 > word-statistics@0.1.0 test
 > react-scripts test "--all" "--coverage" "--verbose" "--watchAll=false"
 
- PASS  src/Frequency.test.js   
+ PASS  src/Frequency.test.js
   rendering
-    √ sets not result when word not found on replace (28 ms)
+    √ displays frequency label (31 ms)
+    √ displays each word in list (8 ms)
+    √ displays each word with frequency (9 ms)
+    √ displays words based on most frequent (6 ms)
+
+ PASS  src/Replace.test.js
+  rendering
+    √ displays 'Find & Replace' label (47 ms)
+    √ display input labels for both find & replace (9 ms)
+    √ displays find input (6 ms)
+    √ displays buttons (72 ms)
+    √ disables buttons when there is no text (29 ms)
+    √ enables Find buttons when text & search words are present (34 ms)
+    √ enables "Replace" & "Replace All" buttons when text, search, & replace words are present (46 ms)
+    √ disables all buttons if search contains separator (28 ms)
+    √ disables replace buttons if contains separator (37 ms)
+  action
+    √ sets no result when word not found on Find Next (15 ms)
+    √ sets not result when word not found on replace (29 ms)
     √ sets not result when word not found on replace all (31 ms)
     √ sets no result when replaces last word (31 ms)
-    √ sets result replaced on replace (35 ms)
-    √ sets last result replaced on replace (32 ms)
+    √ sets result replaced on replace (24 ms)
+    √ sets last result replaced on replace (21 ms)
   getSearchRegex
     √ matches searches at beginning (1 ms)
     √ matches searches at end
@@ -17,62 +35,71 @@ $ npm test -- --all --coverage --verbose --watchAll=false
     √ matches searches within braces or brackets (1 ms)
     √ does not match words with apostrophes
   getStartWordRegex
-    √ matches starting words (1 ms)
-    √ does not match non-starting words
+    √ matches starting words       
+    √ does not match non-starting words (1 ms)
   getWordRegex
-    √ matches starting words (1 ms)
+    √ matches starting words
     √ match middle words
   getRegexFlags
-    √ return ignore case by default (1 ms)
-    √ returns empty string when case sensitive
+    √ return ignore case by default
+    √ returns empty string when case sensitive (1 ms)
     √ returns non global by default
     √ returns global when global true (1 ms)
 
  PASS  src/App.test.js
   rendering
-    √ displays title (65 ms)
-    √ displays text area (16 ms)
-    √ displays frequency label (13 ms)
+    √ displays title (60 ms)
+    √ displays text area (13 ms)
+    √ displays frequency label (10 ms)
   keyboard input
-    √ updates textarea (114 ms)
-    √ inserts tabs in textarea (124 ms)
-    √ retains cursor position after tab (77 ms)
-    √ replaces selected text on tab (100 ms)
-    √ does not respond to shift-tab (142 ms)
+    √ updates textarea (111 ms)
+    √ inserts tabs in textarea (114 ms)
+    √ retains cursor position after tab (69 ms)
+    √ replaces selected text on tab (78 ms)
+    √ does not respond to shift-tab (92 ms)
   select word
-    √ set text selection on callback (1 ms)
-    √ highlight selected test (150 ms)
+    √ set text selection on callback (2 ms)
+    √ highlight selected test (147 ms)
   grepline
-    √ displays line numbers for given text (190 ms)
+    √ displays line numbers for given text (188 ms)
   replace word
-    √ replaces the first word after the cursor position (234 ms)
-    √ replaces all words (218 ms)
+    √ replaces the first word after the cursor position (228 ms)
+    √ replaces all words (193 ms)
   listWords
-    √ returns an empty with no input (1 ms)
-    √ returns an empty with whitespaces (1 ms)
-    √ returns input as words
-    √ does not return empty strings (1 ms)
+    √ returns an empty with no input
+    √ returns an empty with whitespaces
+    √ returns input as words (1 ms)
+    √ does not return empty strings
     √ removes most punctionation
     √ converts characters to lowercase (1 ms)
     √ retains apostrhpe punctiation mark
 
 ---------------|---------|----------|---------|---------|-------------------
-File           | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+File           | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
 ---------------|---------|----------|---------|---------|-------------------
-All files      |   98.51 |    92.06 |     100 |   98.46 |                   
- App.jsx       |   97.36 |    77.77 |     100 |   97.36 | 89                
- Frequency.jsx |     100 |      100 |     100 |     100 |                   
- Replace.jsx   |   98.85 |    94.23 |     100 |   98.79 | 147               
+All files      |   98.52 |    92.06 |     100 |   98.47 |
+ App.jsx       |   97.29 |    77.77 |     100 |   97.29 | 89
+ Frequency.jsx |     100 |      100 |     100 |     100 |
+ Replace.jsx   |   98.87 |    94.23 |     100 |   98.82 | 152
 ---------------|---------|----------|---------|---------|-------------------
-Test Suites: 3 passed, 3 total  
+Test Suites: 3 passed, 3 total
 Tests:       53 passed, 53 total
 Snapshots:   0 total
-Time:        3.931 s
+Time:        4.805 s
 Ran all test suites.
 
 $ npm run lint
 
-> word-statistics@0.1.0 lint
+> word-statistics@0.1.0 lint     
 > eslint src/**/*.js src/**/*.jsx
 
-Note: no output for lint command is good.
+Note: no output for eslint command is good.
+
+$ npm run clone
+
+> word-statistics@0.1.0 clone   
+> jscpd --pattern 'src/**/*.jsx'
+
+Detection time:: 0.229ms
+
+Note: no output for jscpd command is good.
