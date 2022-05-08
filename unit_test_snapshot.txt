@@ -1,0 +1,78 @@
+$ npm test -- --all --coverage --verbose --watchAll=false
+
+> word-statistics@0.1.0 test
+> react-scripts test "--all" "--coverage" "--verbose" "--watchAll=false"
+
+ PASS  src/Frequency.test.js   
+  rendering
+    √ sets not result when word not found on replace (28 ms)
+    √ sets not result when word not found on replace all (31 ms)
+    √ sets no result when replaces last word (31 ms)
+    √ sets result replaced on replace (35 ms)
+    √ sets last result replaced on replace (32 ms)
+  getSearchRegex
+    √ matches searches at beginning (1 ms)
+    √ matches searches at end
+    √ matches searches without leading or trailing punctuation
+    √ matches searches within braces or brackets (1 ms)
+    √ does not match words with apostrophes
+  getStartWordRegex
+    √ matches starting words (1 ms)
+    √ does not match non-starting words
+  getWordRegex
+    √ matches starting words (1 ms)
+    √ match middle words
+  getRegexFlags
+    √ return ignore case by default (1 ms)
+    √ returns empty string when case sensitive
+    √ returns non global by default
+    √ returns global when global true (1 ms)
+
+ PASS  src/App.test.js
+  rendering
+    √ displays title (65 ms)
+    √ displays text area (16 ms)
+    √ displays frequency label (13 ms)
+  keyboard input
+    √ updates textarea (114 ms)
+    √ inserts tabs in textarea (124 ms)
+    √ retains cursor position after tab (77 ms)
+    √ replaces selected text on tab (100 ms)
+    √ does not respond to shift-tab (142 ms)
+  select word
+    √ set text selection on callback (1 ms)
+    √ highlight selected test (150 ms)
+  grepline
+    √ displays line numbers for given text (190 ms)
+  replace word
+    √ replaces the first word after the cursor position (234 ms)
+    √ replaces all words (218 ms)
+  listWords
+    √ returns an empty with no input (1 ms)
+    √ returns an empty with whitespaces (1 ms)
+    √ returns input as words
+    √ does not return empty strings (1 ms)
+    √ removes most punctionation
+    √ converts characters to lowercase (1 ms)
+    √ retains apostrhpe punctiation mark
+
+---------------|---------|----------|---------|---------|-------------------
+File           | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
+---------------|---------|----------|---------|---------|-------------------
+All files      |   98.51 |    92.06 |     100 |   98.46 |                   
+ App.jsx       |   97.36 |    77.77 |     100 |   97.36 | 89                
+ Frequency.jsx |     100 |      100 |     100 |     100 |                   
+ Replace.jsx   |   98.85 |    94.23 |     100 |   98.79 | 147               
+---------------|---------|----------|---------|---------|-------------------
+Test Suites: 3 passed, 3 total  
+Tests:       53 passed, 53 total
+Snapshots:   0 total
+Time:        3.931 s
+Ran all test suites.
+
+$ npm run lint
+
+> word-statistics@0.1.0 lint
+> eslint src/**/*.js src/**/*.jsx
+
+Note: no output for lint command is good.
