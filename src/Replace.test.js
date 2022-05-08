@@ -94,7 +94,7 @@ describe('rendering', () => {
 		buttons.forEach((button) => {
 			expect(button.disabled).toBeTruthy();
 		});
-	});	
+	});
 
 	it('disables replace buttons if contains separator', () => {
 		render(<Replace text='This is example text.' />);
@@ -110,6 +110,152 @@ describe('rendering', () => {
 		expect(buttons[1].disabled).toBeFalsy();
 		expect(buttons[2].disabled).toBeTruthy();
 		expect(buttons[3].disabled).toBeTruthy();
+	});
+});
+
+describe('action', () => {
+	it('sets no result when word not found on Find Next', () => {
+		render(<Replace text='a' />);
+
+		const findInput = screen.getByTestId('find-input');
+		userEvent.type(findInput, 'b');
+
+		const findButton = screen.queryByText('Find Next');
+		findButton.click();
+
+		const resultText = screen.queryByTestId('result-text');
+		expect(resultText.innerHTML.endsWith('No results found.')).toBeTruthy();
+	});
+
+	it('sets no result when word not found on Find All', () => {
+		render(<Replace text='a' />);
+
+		const findInput = screen.getByTestId('find-input');
+		userEvent.type(findInput, 'b');
+
+		const findButton = screen.queryByText('grepline');
+		findButton.click();
+
+		const resultText = screen.queryByTestId('result-text');
+		expect(resultText.innerHTML.endsWith('No results found.')).toBeTruthy();
+	});
+
+	it('sets not result when word not found on replace', () => {
+		render(<Replace text='a' selection={{}} setSelection={() => {}} />);
+
+		const findInput = screen.getByTestId('find-input');
+		userEvent.type(findInput, 'b');
+
+		const replaceInput = screen.getByTestId('replace-input');
+		userEvent.type(replaceInput, 'c');
+
+		const replaceButton = screen.queryByText('Replace');
+		replaceButton.click();
+
+		const resultText = screen.queryByTestId('result-text');
+		expect(resultText.innerHTML.endsWith('No results found.')).toBeTruthy();
+	});
+
+	it('sets not result when word not found on replace all', () => {
+		render(<Replace text='a' />);
+
+		const findInput = screen.getByTestId('find-input');
+		userEvent.type(findInput, 'b');
+
+		const replaceInput = screen.getByTestId('replace-input');
+		userEvent.type(replaceInput, 'c');
+
+		const replaceAllButton = screen.queryByText('Replace All');
+		replaceAllButton.click();
+
+		const resultText = screen.queryByTestId('result-text');
+		expect(resultText.innerHTML.endsWith('No results found.')).toBeTruthy();
+	});
+
+	it('sets no result when replaces last word', () => {
+		let myText = 'a';
+		const setMyText = (text) => {
+			myText = text;
+		};
+
+		render(<Replace text={myText} setText={setMyText} selection={{}} />);
+
+		const findInput = screen.getByTestId('find-input');
+		userEvent.type(findInput, 'c');
+
+		const replaceInput = screen.getByTestId('replace-input');
+		userEvent.type(replaceInput, 'b');
+
+		const replaceButton = screen.queryByText('Replace');
+		replaceButton.click();
+
+		const resultText = screen.queryByTestId('result-text');
+		expect(resultText.innerHTML.endsWith('No results found.')).toBeTruthy();
+	});
+
+	it('sets result replaced on replace', () => {
+		var myText = 'a a';
+		const setMyText = (text) => {
+			myText = text;
+		};
+
+		render(
+			<Replace
+				text={myText}
+				setText={setMyText}
+				selection={{
+					start: 0,
+					end: 0,
+				}}
+				setSelection={() => {}}
+			/>
+		);
+
+		const findInput = screen.getByTestId('find-input');
+		userEvent.type(findInput, 'a');
+
+		const replaceInput = screen.getByTestId('replace-input');
+		userEvent.type(replaceInput, 'b');
+
+		const replaceButton = screen.queryByText('Replace');
+		replaceButton.click();
+
+		const resultText = screen.queryByTestId('result-text');
+		expect(resultText.innerHTML.endsWith('Word replaced.')).toBeTruthy();
+		expect(myText).toEqual('b a');
+	});
+
+	it('sets last result replaced on replace', () => {
+		var myText = 'a';
+		const setMyText = (text) => {
+			myText = text;
+		};
+
+		render(
+			<Replace
+				text={myText}
+				setText={setMyText}
+				selection={{
+					start: 0,
+					end: 0,
+				}}
+				setSelection={() => {}}
+			/>
+		);
+
+		const findInput = screen.getByTestId('find-input');
+		userEvent.type(findInput, 'a');
+
+		const replaceInput = screen.getByTestId('replace-input');
+		userEvent.type(replaceInput, 'c');
+
+		const replaceButton = screen.queryByText('Replace');
+		replaceButton.click();
+
+		const resultText = screen.queryByTestId('result-text');
+		expect(resultText.innerHTML.endsWith('Last word replaced.')).toBeTruthy();
+
+		expect(myText).toEqual('c');
 	});
 });
 
@@ -182,7 +328,7 @@ describe('getRegexFlags', () => {
 	it('return ignore case by default', () => {
 		expect(getRegexFlags()).toEqual('i');
 	});
-	
+
 	it('returns empty string when case sensitive', () => {
 		expect(getRegexFlags(true)).toEqual('');
 	});
