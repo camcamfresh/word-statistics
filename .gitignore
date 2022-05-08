@@ -8,6 +8,9 @@
 # testing
 /coverage
 
+# sonarqube
+/.scannerwork
+
 # production
 /build
 # bundle not ignored for demo purposes

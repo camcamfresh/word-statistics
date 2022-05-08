@@ -20,6 +20,7 @@ To run the demo page:
 - Implementation, You found it!
 - README.md, You found it!
 - Unit Tests, Run `npm test` or see [/documents/unit_test_snapshot.txt](documents/unit_test_snapshot.txt)
+  - Note: run tests with coverage using `npm run coverage`.
 - Design Change Report, see [/documents/design_change_report.txt](documents/design_change_report.txt)
 - Tool Application Report, see [/documents/tool_application_report.txt](documents/tool_application_report.txt)
 
