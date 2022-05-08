@@ -1,0 +1,119 @@
+List Words Specification
+    Textual Description:
+        Purpose: Break text into words.
+        A text is a sequence of characters.
+        Certain characters are blanks: spaces, tabs, carriage returns, and newlines.
+        A word is a sequence of non-blank characters.
+        A seporator is a sequence of blank characters.
+    Concept Definition:
+        char == [CHAR] (CHAR is defined as all characters)
+        blank == [space, tab, carrageReturn, newline]
+
+        TEXT == seq char
+        SEPARATOR == seq1 blank
+        WORD == seq1 (char !blank)
+            seq1 is a non-empty sequence
+    Requirement of function listWords:
+        listWords: TEXT -> seq WORD
+        forall s: SPACE, w: WORD, l,r: TEXT
+            listWords <> = <> &
+            listWords s  = <> &
+            listWords w  = <w> &
+            listWords sr = listWords(r) &
+            listWords ls = listWords(l) &
+            listWords lsr = listWords(l) U listWords(r)
+
+Frequency Specification
+    Textual Description:
+        Purpose: Count the frequency of each word.
+        A text is a sequence of characters.
+        Certain characters are blanks: spaces, tabs, carriage returns, and newlines.
+        A word is a sequence of non-blank characters.
+        Frequency is the number of occurences a word appears in text.
+    Concept Definition:
+        char == [CHAR] (CHAR is defined as all characters)
+        WORD == seq1 characters
+            seq1 is a non-empty sequence
+        FREQUENCY == # of times the same WORD appears in sequence.
+    Requirement of function countWords:
+        countWords: seq WORD -> seq <WORD & frequency>
+        forall word: WORD
+            frequency == 0 => <WORD & 1> &
+            frequency != 0 => <WORD & frequency + 1>
+    Requirement of function wordFrequency:
+        wordFrequency: seq WORD -> seq <WORD FREQUENCY>
+        forall w: WORD, l,r: seq WORD
+            wordFrequency <> = <> &
+            wordFrequency w = <w 1> &
+            wordFrequency wr = <w 1> U wordFrequency(r) if #(w r)==0 &
+            wordFrequency lwr = <w #(w l)+1> U wordFrequency(r) if #(w r)==0 &
+            wordFrequency lw = <w #(w l)+1>
+
+Replace All Specification
+    Textual Description:
+        Purpose: Replace a search word with replacement word.
+        A text is a sequence of characters.
+        Certain characters are blanks: spaces, tabs, carriage returns, and newlines.
+        A word is a sequence of non-blank characters.
+        Search word is a provided word to search for.
+        Replacement word is a provided word to replace with.
+    Concept Definition:
+        char == [CHAR] (CHAR is defined as all characters)
+        blank == [space, tab, carrageReturn, newline]
+
+        TEXT == seq char
+        WORD == seq1 (char !blank)
+        SEPARATOR == seq1 blank
+            seq1 is a non-empty sequence
+        SEARCH == word to search
+        REPLACE == word to replace with
+    Requirement of function replaceAll:
+        replaceAll: TEXT, SEARCH, REPLACE -> TEXT
+        forall l,r: text, s: SEPARATOR, w: WORD, x: SEARCH, y: REPLACE
+            replaceAll <><><> = <> &
+            replaceAll <>x<> = <> &
+            replaceAll <><>y = <> &
+            replaceAll l<>y = l &
+            replaceAll lx<> = replaceAll(l, x, '') &
+            replaceAll srxy = s U replaceAll(r, x, y) &
+            replaceAll wrxy = w U replaceAll(r, x, y) if w!=x &
+            replaceAll wrxy = y U replaceAll(r, x, y) if w==x &
+            replaceAll lsrxy = l U s U replaceAll(r, x, y) &
+            replaceAll lwrxy = l U w U replaceAll(r, x, y) if w!=x &
+            replaceAll lwrxy = l U y U replaceAll(r, x, y) if w==x
+
+Grepline Specification:
+    Textual Description:
+        Purpose: Determine the line numbers a word appears on.
+        A text is a sequence of characters.
+        Certain characters are blanks: spaces, tabs, carriage returns, and newlines.
+        A word is a sequence of non-blank characters.
+        Search word is a provided word to search for.
+        Certain characters are lines: carriage returns, and newlines.
+        Line number is the # of lines +1 seen before a word.
+    Concept Definition:
+        char == [CHAR] (CHAR is defined as all characters)
+        blank == [space, tab, carrageReturn, newline]
+        line == [carrageReturn, newline]
+
+        TEXT == seq char
+        WORD == seq1 (char !blank therefore !line)
+        SEARCH == word to search
+        LINE == seq1 line
+            seq1 is a non-empty sequence
+    Requirement of function grepline:
+        grepline: TEXT, SEARCH -> seq LINE
+        forall l,r: TEXT, s: SEPARATOR, k:LINE. x: SEARCH
+            grepline <>x = <> &
+            grepline l<> = <> &
+            grepline sx = <> &
+            grepline wx = <> if w!=x &
+            grepline wx = <1> if w==x &
+            grepline wrx = grepline(r) if w!=x &
+            grepline wrx = <1> U grepline(r) if w==x &
+            grepline lsx = <> &
+            grepline lwx = <> if w!=x &
+            grepline lwx = <#(k l)+1> if w==x &
+            grepline lsrx = grepline(l, x) U grepline(r, x) &
+            grepline lwrx = grepline(l, x) U grepline(r, x) if w!=x &
+            grepline lwrx = grepline(l, x) U <#(k l)+1> U grepline(r,x) if w==x
