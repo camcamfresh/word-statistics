@@ -15,13 +15,13 @@ To run the demo page:
 
 ## Project Documentation
 
-- Requirements, see [requirements.txt](requirements.txt)
-- Specification, see [specification.txt](specification.txt)
+- Requirements, see [/documents/requirements.txt](documents/requirements.txt)
+- Specification, see [/documents/specification.txt](documents/specification.txt)
 - Implementation, You found it!
 - README.md, You found it!
-- Unit Tests, Run `npm test` or see [unit_test_snapshot.txt](unit_test_snapshot.txt)
-- Design Change Report, see [design_change_report.txt](design_change_report.txt)
-- Tool Application Report, see [tool_application_report.txt](tool_application_report.txt)
+- Unit Tests, Run `npm test` or see [/documents/unit_test_snapshot.txt](documents/unit_test_snapshot.txt)
+- Design Change Report, see [/documents/design_change_report.txt](documents/design_change_report.txt)
+- Tool Application Report, see [/documents/tool_application_report.txt](documents/tool_application_report.txt)
 
 ## How do I run the project?
 
