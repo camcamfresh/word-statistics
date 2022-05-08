@@ -5,7 +5,7 @@ function Replace({ text, setText, selection, setSelection }) {
 	const [replace, setReplace] = useState('');
 	const [result, setResult] = useState('');
 
-	const delimeterRegex = /\n|\t| /;
+	const delimeterRegex = /[\n\t ]/;
 	const isInvalidSearch =
 		text === '' || search === '' || search.match(delimeterRegex);
 	const isInvalidReplace =
@@ -115,27 +115,32 @@ export function onFindAll(search, text, setResult) {
 
 	const lines = text
 		.split('\n')
-		.map((line, index) => line.match(searchRegex) && ++index)
+		.map((line, index) => {
+			if (line.match(searchRegex)) {
+				return index + 1;
+			}
+			return false;
+		})
 		.filter((index) => !!index);
 
 	setResult(
 		<>
 			Word found on the following line(s):
 			{lines.map((line, index) => {
-				let text = line;
+				let resultText = line;
 				if (index + 1 !== lines.length) {
-					text += ', ';
+					resultText += ', ';
 				}
 
 				if (index % 10 === 0) {
 					return (
-						<React.Fragment key={text}>
+						<React.Fragment key={resultText}>
 							<br />
-							{text}
+							{resultText}
 						</React.Fragment>
 					);
 				}
-				return text;
+				return resultText;
 			})}
 		</>
 	);
@@ -179,31 +184,31 @@ export function onReplace(
 	let cursorStart = selection.start;
 
 	if (!selected.match(getStartWordRegex(search))) {
-		const next = findNext(search, text, selection);
+		const nextWord = findNext(search, text, selection);
 
-		if (next?.length !== 2) {
+		if (nextWord?.length !== 2) {
 			setResult('No results found.');
 			return;
 		}
-		cursorStart = next[0];
+		cursorStart = nextWord[0];
 	}
 
 	const searchRegex = getSearchRegex(search);
 	const replaceRegex = getWordRegex(search);
-	const onReplace = (match) => match.replace(replaceRegex, replace);
+	const onReplaceWord = (match) => match.replace(replaceRegex, replace);
 
 	const newText =
 		text.slice(0, cursorStart) +
-		text.slice(cursorStart).replace(searchRegex, onReplace);
+		text.slice(cursorStart).replace(searchRegex, onReplaceWord);
 
-	const next = findNext(search, newText, {
+	const newNextWord = findNext(search, newText, {
 		start: cursorStart,
 		end: cursorStart,
 	});
 
 	setText(newText);
-	if (next?.length === 2) {
-		setSelection(next[0], next[1]);
+	if (newNextWord?.length === 2) {
+		setSelection(newNextWord[0], newNextWord[1]);
 		setResult('Word replaced.');
 	} else {
 		setResult('Last word replaced.');
@@ -218,8 +223,8 @@ function onReplaceAll(search, replace, text, setText, setSelection, setResult) {
 	}
 
 	const replaceRegex = getWordRegex(search, false, true);
-	const onReplace = (match) => match.replace(replaceRegex, replace);
-	const newText = text.replace(searchRegex, onReplace);
+	const onReplaceWord = (match) => match.replace(replaceRegex, replace);
+	const newText = text.replace(searchRegex, onReplaceWord);
 
 	setText(newText);
 	setSelection(0, 0);

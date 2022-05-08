@@ -103,17 +103,14 @@ export function setSelectedText(textArea, startPosition, endPosition = startPosi
 
 export function listWords(textInput) {
 	return textInput
-		.split(/\n|\t| /)
+		.split(/[\n\t ]/)
 		.filter((word) => word !== '')
 		.map((word) =>
 			word
 				.trim()
 				.toLowerCase()
 				.replace(/[,.!?;:~"`()[\]{}]/g, '')
-		)
-		.filter((word) => !word.match(/[\n|\t| |]/));
+		);
 }
-
-// .replace(/[,.!?;:"#$()*+<=>@[\]/\\^_`{}|~]/, '')
 
 export default App;
