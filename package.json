@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "css-loader": "^6.7.1",
     "html-loader": "^3.1.0",
+    "jscpd": "^3.4.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "5.0.0",
@@ -22,6 +23,7 @@
     "bundle": "webpack --config webpack.config.js",
     "test": "react-scripts test",
     "lint": "eslint src/**/*.js src/**/*.jsx",
+    "clone": "jscpd --pattern 'src/**/*.jsx'",
     "coverage": "react-scripts test --all --wactchAll=false --coverage"
   },
   "eslintConfig": {
